@@ -61,11 +61,11 @@
           "configurations": {
             "production": {
               "browserTarget": "angular-15-jwt-auth:build:production",
-              "proxyConfig": "src/proxy.conf.json"
+              "proxyConfig": "./src/proxy.conf.json"
             },
             "development": {
               "browserTarget": "angular-15-jwt-auth:build:development",
-              "proxyConfig": "src/proxy.conf.json"
+              "proxyConfig": "./src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

@@ -16,10 +16,7 @@ export class AuthService {
 
   signin(username: string, password: string): Observable<any> {
     return this.http
-      .post(`http://localhost:3000/api/auth/signin`, {
-        email: username,
-        password,
-      })
+      .get(`http://localhost:3000/api/items/seed`)
       .pipe(map((res) => res));
   }
 }
