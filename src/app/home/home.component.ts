@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services/user.service';
+import { ItemService } from '../_services/item.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +9,10 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   content?: string;
 
-  constructor(private userService: UserService) {}
+  constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
-    // this.userService.getItemsByUserId(2).subscribe({
+    // this.itemService.getItemsByUserId(2).subscribe({
     //   next: (data) => {
     //     this.content = data;
     //   },

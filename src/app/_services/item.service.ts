@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:3000/api/';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class ItemService {
   constructor(private http: HttpClient) {}
 
   getItemsByUserId(userId: number): Observable<any> {
@@ -18,17 +18,5 @@ export class UserService {
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwMjU2MjEsImV4cCI6MTcyMzAyNjUyMX0.sc9cDtWL_5miYbPGHzM0E4RVIPSgItyMkFGlcQVcJOM',
       },
     });
-  }
-
-  getUserBoard(): Observable<any> {
-    return this.http.get(API_URL + 'user', { responseType: 'text' });
-  }
-
-  getModeratorBoard(): Observable<any> {
-    return this.http.get(API_URL + 'mod', { responseType: 'text' });
-  }
-
-  getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
 }
