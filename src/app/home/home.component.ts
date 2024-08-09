@@ -16,15 +16,10 @@ export class HomeComponent implements OnInit {
   error: string = '';
   filterChecked?: boolean = undefined;
 
-  constructor(
-    private itemService: ItemService,
-    private storageService: StorageService
-  ) {}
+  constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
-    const token = this.storageService.getUser();
-
-    this.itemService.getItemsByUserId(token.id, token.access_token).subscribe({
+    this.itemService.getItemsByUserId().subscribe({
       next: (data) => {
         this.items = data;
       },
@@ -49,9 +44,8 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
-    const token = this.storageService.getUser();
     const { text } = this.form;
-    this.itemService.createNewItem(text, token).subscribe({
+    this.itemService.createNewItem(text).subscribe({
       next: (res: any) => {
         if (res > 0) {
           this.items?.push({
@@ -69,8 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateItem(id: number) {
-    const token = this.storageService.getUser();
-    this.itemService.updateItem(id, token).subscribe({
+    this.itemService.updateItem(id).subscribe({
       next: () => {
         //find and update or just recall api
         this.items = this.items?.map((x) =>
@@ -84,8 +77,7 @@ export class HomeComponent implements OnInit {
   }
 
   deleteItem(id: number) {
-    const token = this.storageService.getUser();
-    this.itemService.deleteItem(id, token).subscribe({
+    this.itemService.deleteItem(id).subscribe({
       next: (res: any) => {
         if (res === 200) {
           this.items = this.items?.filter((x) => x.id !== id);

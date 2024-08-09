@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenDetails } from './storage.service';
+import { StorageService, TokenDetails } from './storage.service';
 
 const API_URL = 'http://localhost:4200/api/';
 
@@ -9,10 +9,12 @@ const API_URL = 'http://localhost:4200/api/';
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private storage: StorageService) {}
 
-  getItemsByUserId(userId: number, token: string): Observable<any> {
-    return this.http.get(`${API_URL}items/${userId}`, {
+  getItemsByUserId(): Observable<any> {
+    const token = this.storage.getUser();
+
+    return this.http.get(`${API_URL}items/${token.id}`, {
       // responseType: 'text',
       headers: {
         token: `Bearer ${token}`,
@@ -20,9 +22,8 @@ export class ItemService {
     });
   }
 
-  createNewItem(newItem: string, token: TokenDetails) {
-    console.log('newItem', newItem, token);
-
+  createNewItem(newItem: string) {
+    const token = this.storage.getUser();
     return this.http.post(
       `${API_URL}items/create`,
       {
@@ -37,7 +38,8 @@ export class ItemService {
     );
   }
 
-  updateItem(id: number, token: any) {
+  updateItem(id: number) {
+    const token = this.storage.getUser();
     return this.http.patch(
       `${API_URL}items/${id}`,
       {
@@ -51,7 +53,8 @@ export class ItemService {
     );
   }
 
-  deleteItem(id: number, token: TokenDetails) {
+  deleteItem(id: number) {
+    const token = this.storage.getUser();
     return this.http.delete(`${API_URL}items/${id}`, {
       headers: {
         token: `Bearer ${token.access_token}`,
