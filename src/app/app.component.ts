@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { StorageService } from './_services/storage.service';
-import { AuthService } from './_services/auth.service';
-import { EventBusService } from './_shared/event-bus.service';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +14,7 @@ export class AppComponent {
 
   eventBusSub?: Subscription;
 
-  constructor(
-    private storageService: StorageService,
-    private eventBusService: EventBusService
-  ) {}
+  constructor(private storageService: StorageService) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
@@ -27,13 +22,10 @@ export class AppComponent {
     if (this.isLoggedIn) {
       this.storageService.getUser();
     }
-
-    this.eventBusSub = this.eventBusService.on('logout', () => {
-      this.logout();
-    });
   }
 
   logout(): void {
+    this.storageService.clean();
     this.isLoggedIn = false;
   }
 }

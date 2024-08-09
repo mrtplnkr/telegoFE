@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../_services/item.service';
 import { StorageService } from '../_services/storage.service';
 import { TodoItem } from '../_services/types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +17,14 @@ export class HomeComponent implements OnInit {
   error: string = '';
   filterChecked?: boolean = undefined;
 
-  constructor(private itemService: ItemService) {}
+  constructor(
+    private itemService: ItemService,
+    private storage: StorageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    if (!this.storage.isLoggedIn()) this.router.navigate(['/login']);
     this.itemService.getItemsByUserId().subscribe({
       next: (data) => {
         this.items = data;
