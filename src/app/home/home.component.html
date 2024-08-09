@@ -21,8 +21,16 @@
       <p style="color:red" *ngIf="error">{{ error }}</p>
     </form>
 
-    <li *ngFor="let item of items" class="rowSpread m-1">
-      <span>{{item.text}}</span>
+    <div class="rowSpread m-1">
+      <label for="chk">
+        Filter out completed
+        <input id="chk" value="filterChecked" (change)="changeFilter()" type="checkbox" />
+      </label>
+      <button (click)="sortItems()">sort</button>
+    </div>
+
+    <li *ngFor="let item of filterItems(items ? items : [])" class="rowSpread m-1">
+      <span [ngClass]="item.done ? 'crossed' : ''">{{item.text}}</span>
     
       <button type="button" (click)="deleteItem(item.id)">delete</button>
     </li>

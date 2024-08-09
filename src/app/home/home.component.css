@@ -10,3 +10,8 @@
 .ng-invalid .ng-touched {
     border: '1px solid red' !important;
 }
+
+.crossed {
+    text-decoration: line-through;
+    color: green;
+}

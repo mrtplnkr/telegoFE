@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../_services/item.service';
-import { StorageService, TokenDetails } from '../_services/storage.service';
+import { StorageService } from '../_services/storage.service';
 import { TodoItem } from '../_services/types';
 
 @Component({
@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
     text: null,
   };
   error: string = '';
+  filterChecked?: boolean = undefined;
 
   constructor(
     private itemService: ItemService,
@@ -33,9 +34,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    console.log('submitting', this.form);
+  sortItems() {
+    this.items?.sort((a, b) => (a.text > b.text ? 1 : -1));
+  }
 
+  changeFilter() {
+    this.filterChecked = !this.filterChecked;
+  }
+
+  filterItems(all: TodoItem[]): TodoItem[] {
+    return all.filter(
+      (i) => this.filterChecked == undefined || i.done === this.filterChecked
+    );
+  }
+
+  onSubmit() {
     const token = this.storageService.getUser();
     const { text } = this.form;
     this.itemService.createNewItem(text, token).subscribe({
