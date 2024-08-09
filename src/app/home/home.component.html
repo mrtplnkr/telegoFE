@@ -3,17 +3,19 @@
     
     <form
       name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
       #f="ngForm"
+      (ngSubmit)="f.form.valid && onSubmit()"
       novalidate
     >
       <div class="form-group">
         <input
           type="text"
           class="form-control"
-          name="newItem"
+          name="text"
           [(ngModel)]="form.text"
           required
+          #text="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && text.errors }"
         />
       </div>
       <p style="color:red" *ngIf="error">{{ error }}</p>

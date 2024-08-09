@@ -8,8 +8,8 @@
     <form
       *ngIf="!isLoggedIn"
       name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
       #f="ngForm"
+      (ngSubmit)="f.form.valid && onSubmit()"
       novalidate
     >
       <div class="form-group">

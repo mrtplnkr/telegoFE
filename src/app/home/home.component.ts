@@ -34,6 +34,8 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('submitting', this.form);
+
     const token = this.storageService.getUser();
     const { text } = this.form;
     this.itemService.createNewItem(text, token).subscribe({
@@ -44,7 +46,7 @@ export class HomeComponent implements OnInit {
             done: false,
             id: res, //res.id
           });
-          this.form.reset();
+          this.form.text = '';
         }
       },
       error: (err) => {
