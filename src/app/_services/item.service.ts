@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { StorageService, TokenDetails } from './storage.service';
+import { StorageService } from './storage.service';
 
 const API_URL = 'http://localhost:4200/api/';
 
@@ -15,7 +15,6 @@ export class ItemService {
     const token = this.storage.getUser();
 
     return this.http.get(`${API_URL}items/${token.id}`, {
-      // responseType: 'text',
       headers: {
         token: `Bearer ${token}`,
       },
@@ -38,12 +37,12 @@ export class ItemService {
     );
   }
 
-  updateItem(id: number) {
+  updateItem(id: number, done: boolean) {
     const token = this.storage.getUser();
     return this.http.patch(
       `${API_URL}items/${id}`,
       {
-        done: true,
+        done: done,
       },
       {
         headers: {

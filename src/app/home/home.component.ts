@@ -69,11 +69,14 @@ export class HomeComponent implements OnInit {
   }
 
   updateItem(id: number) {
-    this.itemService.updateItem(id).subscribe({
+    const done = this.items?.find((x) => x.id === id)?.done;
+    this.itemService.updateItem(id, !done).subscribe({
       next: () => {
         //find and update or just recall api
+        console.log('eer');
+
         this.items = this.items?.map((x) =>
-          x.id === id ? { ...x, done: true } : x
+          x.id === id ? { ...x, done: !done } : x
         );
       },
       error: (err) => {

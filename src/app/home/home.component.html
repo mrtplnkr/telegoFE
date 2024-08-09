@@ -32,7 +32,7 @@
     <li *ngFor="let item of filterItems(items ? items : [])" class="rowSpread m-1">
       <span [ngClass]="item.done ? 'crossed' : ''">{{item.text}}</span>
 
-      <button (click)="!item.done && updateItem(item.id)">cross out</button>
+      <button (click)="updateItem(item.id)">cross out</button>
     
       <button type="button" (click)="deleteItem(item.id)">delete</button>
     </li>

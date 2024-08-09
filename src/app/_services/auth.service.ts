@@ -14,9 +14,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signin(email: string, password: string) {
-    return this.http.post(`${AUTH_API}auth/signin`, {
-      email,
-      password,
-    });
+    return this.http.post(
+      `${AUTH_API}auth/signin`,
+      {
+        email,
+        password,
+      },
+      httpOptions
+    );
   }
 }
