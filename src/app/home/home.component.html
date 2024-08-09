@@ -1,5 +1,28 @@
 <div class="container">
   <header class="jumbotron">
-    <p>{{ content }}</p>
+    
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          name="newItem"
+          [(ngModel)]="form.text"
+          required
+        />
+      </div>
+      <p style="color:red" *ngIf="error">{{ error }}</p>
+    </form>
+
+    <li *ngFor="let item of items" class="rowSpread m-1">
+      <span>{{item.text}}</span>
+    
+      <button type="button" (click)="deleteItem(item.id)">delete</button>
+    </li>
   </header>
 </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../_services/item.service';
+import { StorageService, TokenDetails } from '../_services/storage.service';
+import { TodoItem } from '../_services/types';
 
 @Component({
   selector: 'app-home',
@@ -7,27 +9,61 @@ import { ItemService } from '../_services/item.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  content?: string;
+  items?: TodoItem[];
+  form: any = {
+    text: null,
+  };
+  error: string = '';
 
-  constructor(private itemService: ItemService) {}
+  constructor(
+    private itemService: ItemService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit(): void {
-    // this.itemService.getItemsByUserId(2).subscribe({
-    //   next: (data) => {
-    //     this.content = data;
-    //   },
-    //   error: (err) => {
-    //     if (err.error) {
-    //       try {
-    //         const res = JSON.parse(err.error);
-    //         this.content = res.message;
-    //       } catch {
-    //         this.content = `Error with status: ${err.status} - ${err.statusText}`;
-    //       }
-    //     } else {
-    //       this.content = `Error with status: ${err.status}`;
-    //     }
-    //   },
-    // });
+    const token = this.storageService.getUser();
+
+    this.itemService.getItemsByUserId(token.id, token.access_token).subscribe({
+      next: (data) => {
+        this.items = data;
+      },
+      error: (err) => {
+        this.error = `Some trouble on BE- ${err.status}`;
+      },
+    });
+  }
+
+  onSubmit() {
+    const token = this.storageService.getUser();
+    const { text } = this.form;
+    this.itemService.createNewItem(text, token).subscribe({
+      next: (res: any) => {
+        if (res > 0) {
+          this.items?.push({
+            text: text,
+            done: false,
+            id: res, //res.id
+          });
+          this.form.reset();
+        }
+      },
+      error: (err) => {
+        this.error = `Some trouble on BE- ${err.status}`;
+      },
+    });
+  }
+
+  deleteItem(id: number) {
+    const token = this.storageService.getUser();
+    this.itemService.deleteItem(id, token).subscribe({
+      next: (res: any) => {
+        if (res === 200) {
+          this.items = this.items?.filter((x) => x.id !== id);
+        }
+      },
+      error: (err) => {
+        this.error = 'Error while deleting item' + err;
+      },
+    });
   }
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TokenDetails } from './storage.service';
 
-const API_URL = 'http://localhost:3000/api/';
+const API_URL = 'http://localhost:4200/api/';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +11,36 @@ const API_URL = 'http://localhost:3000/api/';
 export class ItemService {
   constructor(private http: HttpClient) {}
 
-  getItemsByUserId(userId: number): Observable<any> {
+  getItemsByUserId(userId: number, token: string): Observable<any> {
     return this.http.get(`${API_URL}items/${userId}`, {
       // responseType: 'text',
       headers: {
-        token:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwMjU2MjEsImV4cCI6MTcyMzAyNjUyMX0.sc9cDtWL_5miYbPGHzM0E4RVIPSgItyMkFGlcQVcJOM',
+        token: `Bearer ${token}`,
+      },
+    });
+  }
+
+  createNewItem(newItem: string, token: TokenDetails) {
+    console.log('newItem', newItem, token);
+
+    return this.http.post(
+      `${API_URL}items/create`,
+      {
+        text: newItem,
+        userId: token.id,
+      },
+      {
+        headers: {
+          token: `Bearer ${token.access_token}`,
+        },
+      }
+    );
+  }
+
+  deleteItem(id: number, token: TokenDetails) {
+    return this.http.delete(`${API_URL}items/${id}`, {
+      headers: {
+        token: `Bearer ${token.access_token}`,
       },
     });
   }
