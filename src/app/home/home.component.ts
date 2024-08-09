@@ -68,6 +68,21 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  updateItem(id: number) {
+    const token = this.storageService.getUser();
+    this.itemService.updateItem(id, token).subscribe({
+      next: () => {
+        //find and update or just recall api
+        this.items = this.items?.map((x) =>
+          x.id === id ? { ...x, done: true } : x
+        );
+      },
+      error: (err) => {
+        console.log('err' + err);
+      },
+    });
+  }
+
   deleteItem(id: number) {
     const token = this.storageService.getUser();
     this.itemService.deleteItem(id, token).subscribe({

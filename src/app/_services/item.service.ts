@@ -37,6 +37,20 @@ export class ItemService {
     );
   }
 
+  updateItem(id: number, token: any) {
+    return this.http.patch(
+      `${API_URL}items/${id}`,
+      {
+        done: true,
+      },
+      {
+        headers: {
+          token: `Bearer ${token.access_token}`,
+        },
+      }
+    );
+  }
+
   deleteItem(id: number, token: TokenDetails) {
     return this.http.delete(`${API_URL}items/${id}`, {
       headers: {
