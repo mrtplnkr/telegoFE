@@ -13,10 +13,10 @@ const httpOptions = {
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  signin(username: string, password: string) {
+  signin(email: string, password: string) {
     return this.http.post(`${AUTH_API}auth/signin`, {
-      email: 'test@gmail.com',
-      password: '123password',
+      email,
+      password,
     });
   }
 }

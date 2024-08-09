@@ -13,17 +13,17 @@
       novalidate
     >
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="email">Email</label>
         <input
           type="text"
           class="form-control"
-          name="username"
+          name="email"
           [(ngModel)]="form.username"
           required
-          #username="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+          #email="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
         />
-        <div *ngIf="username.errors && f.submitted" class="invalid-feedback">
+        <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
           Username is required!
         </div>
       </div>
